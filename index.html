@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -19,26 +21,32 @@
         }
 
         :root {
-            --primary: #1e88e5;
-            --secondary: #0d47a1;
-            --accent: #ff9800;
-            --light: #f8f9fa;
-            --dark: #263238;
-            --success: #43a047;
-            --warning: #ff5722;
-            --map-green: #0b8457;
+            --primary: #2563EB;
+            --primary-light: #60a5fa;
+            --primary-dark: #1d4ed8;
+            --secondary: #0F172A;
+            --accent: #E7F54A;
+            --accent-dark: #c5d63e;
+            --teal: #14B8A6;
+            --light: #F8FAFC;
+            --dark: #0F172A;
+            --success: #14B8A6;
+            --warning: #f97316;
+            --map-green: #14B8A6;
+            --bg: #F1F5F9;
+            --card-shadow: rgba(15, 23, 42, 0.07);
         }
 
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--bg);
+            color: #334155;
             line-height: 1.6;
         }
 
         /* Header & Navigation */
         header {
             background-color: white;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px var(--card-shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -119,7 +127,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #1976d2;
+            background-color: var(--primary-dark);
             transform: translateY(-2px);
         }
 
@@ -165,12 +173,12 @@
         }
 
         .hero {
-            background: linear-gradient(rgba(13, 71, 161, 0.85), rgba(13, 71, 161, 0.9)), url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(37, 99, 235, 0.85)), url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             color: white;
             padding: 80px 0;
-            border-radius: 10px;
+            border-radius: 14px;
             margin-bottom: 40px;
             text-align: center;
         }
@@ -212,6 +220,10 @@
             font-weight: bold;
             cursor: pointer;
             border-radius: 50px;
+            transition: background 0.3s;
+        }
+        .search-bar button:hover {
+            background-color: var(--accent-dark);
         }
 
         /* Cards & Grids */
@@ -232,15 +244,16 @@
 
         .card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 16px var(--card-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-6px);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
         }
 
         .card-img {
@@ -284,18 +297,18 @@
         /* Map Container */
         #map {
             height: 400px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 20px;
-            border: 2px solid #ddd;
+            border: 2px solid #d0ddd9;
             z-index: 1;
         }
 
         .map-controls {
             background: white;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px var(--card-shadow);
         }
 
         .map-controls label {
@@ -347,8 +360,8 @@
             margin: 0 auto;
             background-color: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--card-shadow);
         }
 
         .form-group {
@@ -373,14 +386,15 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
         /* Chat */
         .chat-container {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px var(--card-shadow);
             height: 500px;
             display: flex;
             flex-direction: column;
@@ -411,7 +425,7 @@
             max-width: 70%;
             padding: 10px 15px;
             border-radius: 18px;
-            background-color: #f1f1f1;
+            background-color: #e8f0ee;
         }
 
         .message.sent .message-content {
@@ -437,8 +451,8 @@
         .location-tag {
             display: inline-flex;
             align-items: center;
-            background-color: rgba(30, 136, 229, 0.1);
-            color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.06);
+            color: var(--primary-dark);
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 14px;
@@ -536,9 +550,551 @@
             }
         }
 
+        /* ============================================ */
+        /* MODAL STYLES                                */
+        /* ============================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            font-size: 24px; cursor: pointer;
+            color: #666;
+        }
+        .modal h2 { margin-bottom: 20px; color: var(--secondary); }
+        .modal .form-group { margin-bottom: 16px; }
+        .modal .btn { width: 100%; margin-top: 10px; }
+        .modal .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            position: relative;
+        }
+        .modal .divider::before,
+        .modal .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #ddd;
+        }
+        .modal .divider::before { left: 0; }
+        .modal .divider::after { right: 0; }
+        .btn-google {
+            background: white;
+            color: #333;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-google:hover { background: #f5f5f5; }
+        .modal-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .modal-link a {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* ============================================ */
+        /* PROFILE WIZARD                              */
+        /* ============================================ */
+        .wizard-steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .wizard-step {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .wizard-step.active {
+            background: var(--primary);
+            color: white;
+        }
+        .wizard-step.completed {
+            background: var(--success);
+            color: white;
+        }
+        .wizard-panel { display: none; }
+        .wizard-panel.active { display: block; }
+        .wizard-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* ============================================ */
+        /* TIER BADGES                                 */
+        /* ============================================ */
+        .tier-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .tier-bronze { background: #cd7f32; color: white; }
+        .tier-silver { background: #c0c0c0; color: #333; }
+        .tier-gold { background: #ffd700; color: #333; }
+        .tier-platinum { background: #e5e4e2; color: #333; }
+        .tier-diamond { background: linear-gradient(135deg, #b9f2ff, #89CFF0); color: #1a4a6e; }
+
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: #fff3e0;
+            color: #e65100;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .verification-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .verified { background: #e8f5e9; color: #2e7d32; }
+        .unverified { background: #fff3e0; color: #e65100; }
+
+        /* ============================================ */
+        /* RANKING STATS CARD                          */
+        /* ============================================ */
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            flex: 1;
+            min-width: 100px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        .stat-card .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* ============================================ */
+        /* EXTERNAL RANKINGS SECTION                   */
+        /* ============================================ */
+        .external-rankings {
+            background: rgba(37, 99, 235, 0.03);
+            border: 1px dashed var(--primary-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        .external-rankings h4 {
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+        .external-rankings .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* ============================================ */
+        /* USER BAR (logged-in header)                 */
+        /* ============================================ */
+        .user-bar {
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-bar.active { display: flex; }
+        .user-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            padding: 10px 0;
+            min-width: 200px;
+            z-index: 1100;
+        }
+        .user-dropdown.active { display: block; }
+        .user-dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .user-dropdown a:hover { background: #f5f5f5; }
+        .user-dropdown .dropdown-divider {
+            border-top: 1px solid #eee;
+            margin: 5px 0;
+        }
+        .role-badge-header {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .role-player { background: #e3f2fd; color: #1565c0; }
+        .role-admin { background: #fce4ec; color: #c62828; }
+        .role-court-admin { background: #e8f5e9; color: #2e7d32; }
+
+        /* ============================================ */
+        /* ADMIN DASHBOARD                             */
+        /* ============================================ */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 25px;
+            min-height: 600px;
+        }
+        .admin-sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+        .admin-sidebar h3 {
+            padding: 0 20px 15px;
+            color: var(--secondary);
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .admin-sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: #f5f7fa;
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        .admin-sidebar .badge-count {
+            background: var(--warning);
+            color: white;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+        .admin-content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+        .admin-metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .admin-metric {
+            background: linear-gradient(135deg, #f5f7fa, #e8edf2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .admin-metric .metric-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        .admin-metric .metric-label {
+            font-size: 13px;
+            color: #777;
+            margin-top: 5px;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .admin-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        .admin-table tr:hover { background: #fafbfc; }
+        .action-btn {
+            padding: 5px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        .action-btn-approve { background: #e8f5e9; color: #2e7d32; }
+        .action-btn-reject { background: #ffebee; color: #c62828; }
+        .action-btn-edit { background: #e3f2fd; color: #1565c0; }
+        .action-btn-delete { background: #fce4ec; color: #c62828; }
+        .action-btn-view { background: #f3e5f5; color: #6a1b9a; }
+
+        /* ============================================ */
+        /* COURT ADMIN DASHBOARD                       */
+        /* ============================================ */
+        .court-admin-header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .court-admin-header h2 { color: white; margin-bottom: 8px; }
+        .court-admin-quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .court-admin-quick-actions .btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-size: 13px;
+            padding: 8px 16px;
+        }
+        .court-admin-quick-actions .btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .ca-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 25px;
+        }
+        .ca-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #777;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            margin-bottom: -2px;
+        }
+        .ca-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .ca-panel { display: none; }
+        .ca-panel.active { display: block; }
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 15px;
+        }
+        .schedule-day {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            min-height: 80px;
+        }
+        .schedule-day .day-name {
+            font-weight: bold;
+            font-size: 12px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        .schedule-slot {
+            background: #e8f5e9;
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 10px;
+            margin-top: 4px;
+            color: #2e7d32;
+        }
+        .schedule-slot.blocked {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .checkin-feed-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .checkin-feed-item .checkin-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkin-feed-item .checkin-time {
+            margin-left: auto;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* ============================================ */
+        /* NOTIFICATION TOAST                          */
+        /* ============================================ */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 3000;
+        }
+        .toast {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+            max-width: 350px;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .toast-success { border-left: 4px solid var(--success); }
+        .toast-warning { border-left: 4px solid var(--warning); }
+        .toast-info { border-left: 4px solid var(--primary); }
+
+        /* ============================================ */
+        /* RESPONSIVE ADMIN                            */
+        /* ============================================ */
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                position: static;
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+                gap: 5px;
+            }
+            .admin-sidebar h3 { display: none; }
+            .admin-sidebar a {
+                padding: 8px 14px;
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                font-size: 12px;
+            }
+            .admin-sidebar a.active { border-bottom-color: var(--primary); border-left: none; }
+            .schedule-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .stats-row { flex-direction: column; }
+        }
+
         /* Footer */
         footer {
-            background-color: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary), var(--dark));
             color: white;
             padding: 40px 0 20px;
             margin-top: 60px;
@@ -584,6 +1140,187 @@
     </style>
 </head>
 <body>
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sign In Modal -->
+    <div class="modal-overlay" id="signInModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('signInModal')">&times;</button>
+            <h2><i class="fas fa-table-tennis-paddle-ball" style="color:var(--primary)"></i> Sign In</h2>
+            <form id="signInForm" onsubmit="handleSignIn(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signInEmail" class="form-control" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signInPassword" class="form-control" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+            <div class="divider">or</div>
+            <button class="btn-google" onclick="handleGoogleSignIn()">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <p class="modal-link">Don't have an account? <a onclick="switchModal('signInModal','registerModal')">Join Now</a></p>
+            <p class="modal-link" style="margin-top:8px;font-size:12px;color:#999;">Demo: admin@pickletown.com / admin123 | court@pickletown.com / court123 | player@pickletown.com / player123</p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            <h2><i class="fas fa-user-plus" style="color:var(--primary)"></i> Join PickleTown 6200</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Min 6 characters" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>I am a...</label>
+                    <select id="regRole" class="form-control">
+                        <option value="player">Player</option>
+                        <option value="court_admin">Court Manager</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+            <div class="divider">or</div>
+            <button class="btn-google" onclick="handleGoogleSignIn()">
+                <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <p class="modal-link">Already have an account? <a onclick="switchModal('registerModal','signInModal')">Sign In</a></p>
+        </div>
+    </div>
+
+    <!-- Profile Setup Wizard Modal -->
+    <div class="modal-overlay" id="profileWizardModal">
+        <div class="modal" style="max-width:550px;">
+            <h2><i class="fas fa-user-circle" style="color:var(--primary)"></i> Set Up Your Profile</h2>
+            <div class="wizard-steps">
+                <div class="wizard-step active" data-step="1">1</div>
+                <div class="wizard-step" data-step="2">2</div>
+                <div class="wizard-step" data-step="3">3</div>
+                <div class="wizard-step" data-step="4">4</div>
+                <div class="wizard-step" data-step="5">5</div>
+            </div>
+
+            <!-- Step 1: Basic Info -->
+            <div class="wizard-panel active" id="wizStep1">
+                <h3>Basic Information</h3>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" id="wizName" class="form-control" placeholder="How others will see you">
+                </div>
+                <div class="form-group">
+                    <label>Phone (optional)</label>
+                    <input type="tel" id="wizPhone" class="form-control" placeholder="+63 9XX XXX XXXX">
+                </div>
+            </div>
+
+            <!-- Step 2: Skill Level -->
+            <div class="wizard-panel" id="wizStep2">
+                <h3>Your Skill Level</h3>
+                <p style="color:#666;margin-bottom:15px;">Select the level that best describes your current play.</p>
+                <div class="form-group">
+                    <select id="wizSkill" class="form-control" style="font-size:16px;padding:14px;">
+                        <option value="2.0">2.0 - Beginner (learning basics)</option>
+                        <option value="2.5">2.5 - Advanced Beginner (can rally)</option>
+                        <option value="3.0" selected>3.0 - Intermediate (consistent shots)</option>
+                        <option value="3.5">3.5 - Advanced Intermediate (strategic play)</option>
+                        <option value="4.0">4.0 - Advanced (competitive)</option>
+                        <option value="4.5">4.5 - Expert (tournament-level)</option>
+                        <option value="5.0">5.0+ - Pro/Semi-Pro</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Step 3: Play Preferences -->
+            <div class="wizard-panel" id="wizStep3">
+                <h3>Play Preferences</h3>
+                <div class="form-group">
+                    <label>Preferred Play Style</label>
+                    <select id="wizPlayStyle" class="form-control">
+                        <option value="doubles">Doubles</option>
+                        <option value="singles">Singles</option>
+                        <option value="mixed">Mixed Doubles</option>
+                        <option value="any">Any / No Preference</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Availability</label>
+                    <textarea id="wizAvailability" class="form-control" rows="3" placeholder="e.g., Weekday evenings, Saturday mornings"></textarea>
+                </div>
+            </div>
+
+            <!-- Step 4: Location -->
+            <div class="wizard-panel" id="wizStep4">
+                <h3>Your Location</h3>
+                <div class="form-group">
+                    <label>Area</label>
+                    <select id="wizLocation" class="form-control">
+                        <option value="dumaguete">Dumaguete City</option>
+                        <option value="valencia">Valencia</option>
+                        <option value="bacong">Bacong</option>
+                        <option value="sibulan">Sibulan</option>
+                        <option value="dauin">Dauin</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Years Playing Pickleball</label>
+                    <select id="wizYears" class="form-control">
+                        <option value="0">Just starting</option>
+                        <option value="1">Less than 1 year</option>
+                        <option value="2">1-2 years</option>
+                        <option value="3">3-5 years</option>
+                        <option value="5">5+ years</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Step 5: External Rankings -->
+            <div class="wizard-panel" id="wizStep5">
+                <h3>External Rankings (Optional)</h3>
+                <p style="color:#666;margin-bottom:15px;">Link your ratings from other platforms. You can skip this and add later.</p>
+                <div class="external-rankings" style="border:none;background:transparent;padding:0;">
+                    <div class="form-group">
+                        <label>DUPR Rating (2.0 - 8.0)</label>
+                        <input type="number" id="wizDupr" class="form-control" placeholder="e.g., 3.5" step="0.01" min="2.0" max="8.0">
+                    </div>
+                    <div class="form-group">
+                        <label>DUPR Profile URL</label>
+                        <input type="url" id="wizDuprUrl" class="form-control" placeholder="https://mydupr.com/profile/...">
+                    </div>
+                    <div class="form-group">
+                        <label>UTR-P Rating</label>
+                        <input type="number" id="wizUtr" class="form-control" placeholder="e.g., 4.2" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>PPA Ranking</label>
+                        <input type="number" id="wizPpa" class="form-control" placeholder="e.g., 150">
+                    </div>
+                    <p class="hint">Self-reported ratings. API verification coming in a future update.</p>
+                </div>
+            </div>
+
+            <div class="wizard-nav">
+                <button class="btn btn-outline" id="wizPrev" onclick="wizardNav(-1)" style="display:none;">Back</button>
+                <button class="btn btn-primary" id="wizNext" onclick="wizardNav(1)">Next</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container header-container">
@@ -604,12 +1341,31 @@
                     <li><a href="#" data-section="games"><i class="fas fa-calendar-alt"></i> Games</a></li>
                     <li><a href="#" data-section="players"><i class="fas fa-users"></i> Players</a></li>
                     <li><a href="#" data-section="events"><i class="fas fa-trophy"></i> Events</a></li>
+                    <li class="nav-admin-only" style="display:none;"><a href="#" data-section="admin-dashboard"><i class="fas fa-shield-alt"></i> Admin</a></li>
+                    <li class="nav-court-admin-only" style="display:none;"><a href="#" data-section="court-admin-dashboard"><i class="fas fa-building"></i> My Court</a></li>
                 </ul>
             </nav>
-            
-            <div class="auth-buttons">
+
+            <div class="auth-buttons" id="authButtons">
                 <button class="btn btn-outline" id="signInBtn">Sign In</button>
                 <button class="btn btn-primary" id="registerBtn">Join Now</button>
+            </div>
+
+            <!-- Logged-in User Bar -->
+            <div class="user-bar" id="userBar">
+                <span class="role-badge-header role-player" id="roleBadge">Player</span>
+                <div class="user-avatar" id="userAvatar" onclick="toggleUserDropdown()">PT</div>
+            </div>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="#" id="dropdownName" style="font-weight:bold;color:var(--secondary);pointer-events:none;">Player Name</a>
+                <a href="#" id="dropdownEmail" style="font-size:12px;color:#999;pointer-events:none;">email@example.com</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="showSection('players');activateTab(document.querySelector('[data-tab=player-profiles]'));closeUserDropdown();return false;"><i class="fas fa-user"></i> My Profile</a>
+                <a href="#" onclick="showSection('players');activateTab(document.querySelector('[data-tab=rankings]'));closeUserDropdown();return false;"><i class="fas fa-trophy"></i> My Rankings</a>
+                <a href="#" class="dropdown-admin-only" style="display:none;" onclick="showSection('admin-dashboard');closeUserDropdown();return false;"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+                <a href="#" class="dropdown-court-admin-only" style="display:none;" onclick="showSection('court-admin-dashboard');closeUserDropdown();return false;"><i class="fas fa-building"></i> Court Dashboard</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" onclick="handleSignOut();return false;"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
             </div>
         </div>
     </header>
@@ -1081,7 +1837,29 @@
                         </select>
                     </div>
                     
-                    <button class="btn btn-primary" style="width: 100%;">Update Profile</button>
+                    <!-- External Rankings Section -->
+                    <div class="external-rankings">
+                        <h4><i class="fas fa-globe"></i> External Rankings (Optional)</h4>
+                        <div class="form-group">
+                            <label for="profileDupr">DUPR Rating (2.0 - 8.0)</label>
+                            <input type="number" id="profileDupr" class="form-control" placeholder="e.g., 3.5" step="0.01" min="2.0" max="8.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileDuprUrl">DUPR Profile URL</label>
+                            <input type="url" id="profileDuprUrl" class="form-control" placeholder="https://mydupr.com/profile/...">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileUtr">UTR-P Rating</label>
+                            <input type="number" id="profileUtr" class="form-control" placeholder="e.g., 4.2" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePpa">PPA Ranking</label>
+                            <input type="number" id="profilePpa" class="form-control" placeholder="e.g., 150">
+                        </div>
+                        <p class="hint">Self-reported ratings. API verification coming in a future update.</p>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%;margin-top:20px;" onclick="saveProfile()">Update Profile</button>
                 </div>
             </div>
             
@@ -1124,21 +1902,81 @@
                 </div>
             </div>
             
-            <!-- NEW: Match Results & Rankings Tab -->
+            <!-- ENHANCED: Match Results & Rankings Tab -->
             <div class="tab-content" id="rankings">
-                <h2>🏆 Submit Match Result</h2>
+                <!-- Your Stats Summary (shown when logged in) -->
+                <div id="myStatsSection" style="display:none;">
+                    <h2>Your Stats</h2>
+                    <div class="stats-row" id="myStatsRow">
+                        <div class="stat-card">
+                            <div class="stat-value" id="myPoints">0</div>
+                            <div class="stat-label">Points</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="myRank">-</div>
+                            <div class="stat-label">Rank</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="myWins">0</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="myLosses">0</div>
+                            <div class="stat-label">Losses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="myStreak">0</div>
+                            <div class="stat-label">Win Streak</div>
+                        </div>
+                        <div class="stat-card">
+                            <div id="myTierBadge"></div>
+                            <div class="stat-label">Tier</div>
+                        </div>
+                    </div>
+
+                    <!-- External Rankings Display -->
+                    <div class="external-rankings" id="externalRankingsDisplay" style="display:none;">
+                        <h4><i class="fas fa-globe"></i> External Rankings</h4>
+                        <div style="display:flex;gap:15px;flex-wrap:wrap;">
+                            <div id="extDupr" style="display:none;" class="stat-card" style="flex:1;">
+                                <div class="stat-value" style="font-size:22px;" id="extDuprVal">-</div>
+                                <div class="stat-label">DUPR Rating</div>
+                            </div>
+                            <div id="extUtr" style="display:none;" class="stat-card" style="flex:1;">
+                                <div class="stat-value" style="font-size:22px;" id="extUtrVal">-</div>
+                                <div class="stat-label">UTR-P Rating</div>
+                            </div>
+                            <div id="extPpa" style="display:none;" class="stat-card" style="flex:1;">
+                                <div class="stat-value" style="font-size:22px;" id="extPpaVal">-</div>
+                                <div class="stat-label">PPA Ranking</div>
+                            </div>
+                        </div>
+                        <p class="hint">Self-reported. API-synced verification coming soon.</p>
+                    </div>
+                </div>
+
+                <h2 style="margin-top:25px;">Submit Match Result</h2>
                 <div class="card" style="margin-bottom: 30px;">
                     <div class="card-content">
                         <div class="match-form">
                             <input id="playerA" placeholder="Player A" class="form-control">
                             <input id="playerB" placeholder="Player B" class="form-control">
                             <input id="winner" placeholder="Winner Name" class="form-control" style="grid-column: span 2;">
+                            <input id="scoreA" placeholder="Score A (e.g. 11)" class="form-control" type="number" min="0" max="99">
+                            <input id="scoreB" placeholder="Score B (e.g. 7)" class="form-control" type="number" min="0" max="99">
+                            <select id="matchType" class="form-control" style="grid-column: span 2;">
+                                <option value="singles">Singles</option>
+                                <option value="doubles">Doubles</option>
+                                <option value="mixed">Mixed Doubles</option>
+                            </select>
                         </div>
                         <button onclick="submitMatch()" class="btn btn-primary" style="width: 100%;">Submit Result</button>
+                        <p style="font-size:12px;color:#999;margin-top:8px;text-align:center;">Opponent will be asked to verify. Verified matches earn full points.</p>
                     </div>
                 </div>
-                
-                <h2>📊 Player Rankings</h2>
+
+                <h2>Player Rankings</h2>
+                <p style="color:#666;margin-bottom:15px;">Points: Win +3 | Participation +1 | Upset Bonus +5 | Streak (3+) +2 | Tournament Win +10</p>
                 <div id="rankingsContainer"></div>
             </div>
         </section>
@@ -1279,6 +2117,439 @@
                             <button class="btn btn-primary">Join League</button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- ADMIN DASHBOARD (role-gated)               -->
+        <!-- ============================================ -->
+        <section id="admin-dashboard" class="section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Admin Panel</h2>
+            <div class="admin-layout">
+                <div class="admin-sidebar">
+                    <h3>Admin Panel</h3>
+                    <a href="#" class="active" onclick="showAdminPanel('admin-overview');return false;"><i class="fas fa-chart-pie"></i> Overview</a>
+                    <a href="#" onclick="showAdminPanel('admin-users');return false;"><i class="fas fa-users"></i> Users</a>
+                    <a href="#" onclick="showAdminPanel('admin-courts');return false;"><i class="fas fa-map-marker-alt"></i> Courts <span class="badge-count" id="pendingCourtsCount">2</span></a>
+                    <a href="#" onclick="showAdminPanel('admin-games');return false;"><i class="fas fa-gamepad"></i> Games</a>
+                    <a href="#" onclick="showAdminPanel('admin-events');return false;"><i class="fas fa-calendar"></i> Events</a>
+                    <a href="#" onclick="showAdminPanel('admin-rankings');return false;"><i class="fas fa-trophy"></i> Rankings</a>
+                    <a href="#" onclick="showAdminPanel('admin-sponsors');return false;"><i class="fas fa-handshake"></i> Sponsors</a>
+                    <a href="#" onclick="showAdminPanel('admin-reports');return false;"><i class="fas fa-chart-bar"></i> Reports</a>
+                </div>
+
+                <div class="admin-content">
+                    <!-- Overview Panel -->
+                    <div class="admin-panel active" id="admin-overview">
+                        <h3>Dashboard Overview</h3>
+                        <div class="admin-metric-grid">
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminTotalPlayers">48</div>
+                                <div class="metric-label">Active Players</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminTotalCourts">8</div>
+                                <div class="metric-label">Courts</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminTotalGames">12</div>
+                                <div class="metric-label">Games This Week</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminPendingCourts">2</div>
+                                <div class="metric-label">Pending Courts</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminDisputes">1</div>
+                                <div class="metric-label">Match Disputes</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value" id="adminEvents">3</div>
+                                <div class="metric-label">Upcoming Events</div>
+                            </div>
+                        </div>
+
+                        <h4>Recent Activity</h4>
+                        <div id="adminActivityFeed">
+                            <div class="checkin-feed-item">
+                                <div class="checkin-icon"><i class="fas fa-user-plus"></i></div>
+                                <div><strong>Sarah Johnson</strong> registered as a new player</div>
+                                <div class="checkin-time">2 min ago</div>
+                            </div>
+                            <div class="checkin-feed-item">
+                                <div class="checkin-icon" style="background:#fff3e0;color:#e65100;"><i class="fas fa-map-marker-alt"></i></div>
+                                <div><strong>Tanjay Sports Center</strong> court submitted for approval</div>
+                                <div class="checkin-time">15 min ago</div>
+                            </div>
+                            <div class="checkin-feed-item">
+                                <div class="checkin-icon" style="background:#e3f2fd;color:#1565c0;"><i class="fas fa-trophy"></i></div>
+                                <div><strong>Maria Tan</strong> won match vs Juan Dela Cruz</div>
+                                <div class="checkin-time">1 hour ago</div>
+                            </div>
+                            <div class="checkin-feed-item">
+                                <div class="checkin-icon" style="background:#fce4ec;color:#c62828;"><i class="fas fa-exclamation-triangle"></i></div>
+                                <div><strong>Match Dispute</strong> — Alex Reyes vs Michael Lim</div>
+                                <div class="checkin-time">3 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users Panel -->
+                    <div class="admin-panel" id="admin-users">
+                        <h3>User Management</h3>
+                        <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap;">
+                            <input type="text" class="form-control" placeholder="Search users..." style="flex:1;min-width:200px;" id="adminUserSearch" oninput="filterAdminUsers()">
+                            <select class="form-control" style="width:auto;" id="adminRoleFilter" onchange="filterAdminUsers()">
+                                <option value="all">All Roles</option>
+                                <option value="player">Players</option>
+                                <option value="court_admin">Court Admins</option>
+                                <option value="admin">Admins</option>
+                            </select>
+                        </div>
+                        <table class="admin-table" id="adminUsersTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Skill</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminUsersBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Courts Panel -->
+                    <div class="admin-panel" id="admin-courts">
+                        <h3>Court Management</h3>
+                        <div class="tabs" style="margin-bottom:20px;">
+                            <div class="tab active" onclick="showAdminCourtTab('all')">All Courts</div>
+                            <div class="tab" onclick="showAdminCourtTab('pending')">Pending Approval <span class="badge-count">2</span></div>
+                        </div>
+                        <table class="admin-table" id="adminCourtsTable">
+                            <thead>
+                                <tr>
+                                    <th>Court Name</th>
+                                    <th>Town</th>
+                                    <th>Status</th>
+                                    <th>Court Admin</th>
+                                    <th>Check-ins</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminCourtsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Games Panel -->
+                    <div class="admin-panel" id="admin-games">
+                        <h3>Games Management</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr><th>Game</th><th>Court</th><th>Date</th><th>Players</th><th>Status</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="adminGamesBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Events Panel -->
+                    <div class="admin-panel" id="admin-events">
+                        <h3>Events & Tournaments</h3>
+                        <button class="btn btn-primary btn-sm" style="margin-bottom:15px;" onclick="showToast('Create event form coming soon!','info')"><i class="fas fa-plus"></i> Create Event</button>
+                        <table class="admin-table">
+                            <thead>
+                                <tr><th>Event</th><th>Type</th><th>Date</th><th>Registrations</th><th>Status</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="adminEventsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Rankings Panel -->
+                    <div class="admin-panel" id="admin-rankings">
+                        <h3>Rankings & Match Disputes</h3>
+                        <div class="tabs" style="margin-bottom:20px;">
+                            <div class="tab active" onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.getElementById('adminLeaderboard').style.display='block';document.getElementById('adminDisputes').style.display='none';">Leaderboard</div>
+                            <div class="tab" onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.getElementById('adminLeaderboard').style.display='none';document.getElementById('adminDisputes').style.display='block';">Disputes <span class="badge-count">1</span></div>
+                        </div>
+                        <div id="adminLeaderboard">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr><th>#</th><th>Player</th><th>Points</th><th>W/L</th><th>Tier</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="adminRankingsBody"></tbody>
+                            </table>
+                        </div>
+                        <div id="adminDisputes" style="display:none;">
+                            <div id="adminDisputesList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sponsors Panel -->
+                    <div class="admin-panel" id="admin-sponsors">
+                        <h3>Sponsor Management</h3>
+                        <button class="btn btn-primary btn-sm" style="margin-bottom:15px;" onclick="showToast('Add sponsor form coming soon!','info')"><i class="fas fa-plus"></i> Add Sponsor</button>
+                        <table class="admin-table">
+                            <thead>
+                                <tr><th>Sponsor</th><th>Location</th><th>Status</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="adminSponsorsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Reports Panel -->
+                    <div class="admin-panel" id="admin-reports">
+                        <h3>Reports & Analytics</h3>
+                        <div class="admin-metric-grid">
+                            <div class="admin-metric">
+                                <div class="metric-value">+12</div>
+                                <div class="metric-label">New Players (30d)</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value">156</div>
+                                <div class="metric-label">Total Check-ins (30d)</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value">34</div>
+                                <div class="metric-label">Matches Played (30d)</div>
+                            </div>
+                            <div class="admin-metric">
+                                <div class="metric-value">5:30 PM</div>
+                                <div class="metric-label">Peak Play Time</div>
+                            </div>
+                        </div>
+                        <h4>Most Active Courts</h4>
+                        <div id="adminCourtStats"></div>
+                        <h4 style="margin-top:20px;">Player Skill Distribution</h4>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+                            <span class="badge" style="background:#e3f2fd;color:#1565c0;">2.0-2.5: 15 players</span>
+                            <span class="badge" style="background:#e8f5e9;color:#2e7d32;">3.0-3.5: 22 players</span>
+                            <span class="badge" style="background:#fff3e0;color:#e65100;">4.0+: 11 players</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm" style="margin-top:20px;" onclick="showToast('CSV export coming soon!','info')"><i class="fas fa-download"></i> Export Data (CSV)</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- COURT ADMIN DASHBOARD (role-gated)          -->
+        <!-- ============================================ -->
+        <section id="court-admin-dashboard" class="section">
+            <div class="court-admin-header">
+                <h2><i class="fas fa-building"></i> Court Admin Dashboard</h2>
+                <p id="caCourtName">Freedom Park Court — Dumaguete City</p>
+                <div style="display:flex;gap:15px;margin-top:10px;flex-wrap:wrap;">
+                    <span><i class="fas fa-check-circle"></i> <strong id="caTodayCheckins">12</strong> Check-ins Today</span>
+                    <span><i class="fas fa-gamepad"></i> <strong id="caTodayGames">3</strong> Active Games</span>
+                    <span><i class="fas fa-clock"></i> Next: <strong id="caNextGame">Open Play @ 3:00 PM</strong></span>
+                </div>
+                <div class="court-admin-quick-actions">
+                    <button class="btn" onclick="showCAPanel('ca-profile')"><i class="fas fa-edit"></i> Edit Court Info</button>
+                    <button class="btn" onclick="showCAPanel('ca-schedule')"><i class="fas fa-ban"></i> Block Time Slot</button>
+                    <button class="btn" onclick="showCAPanel('ca-activity')"><i class="fas fa-bell"></i> Post Announcement</button>
+                    <button class="btn" onclick="showCAPanel('ca-schedule')"><i class="fas fa-calendar"></i> View Schedule</button>
+                </div>
+            </div>
+
+            <div class="ca-tabs">
+                <div class="ca-tab active" onclick="showCAPanel('ca-profile')">Court Profile</div>
+                <div class="ca-tab" onclick="showCAPanel('ca-schedule')">Schedule</div>
+                <div class="ca-tab" onclick="showCAPanel('ca-activity')">Activity</div>
+                <div class="ca-tab" onclick="showCAPanel('ca-events')">Events</div>
+                <div class="ca-tab" onclick="showCAPanel('ca-stats')">Analytics</div>
+            </div>
+
+            <!-- Court Profile Panel -->
+            <div class="ca-panel active" id="ca-profile">
+                <div class="form-container" style="max-width:100%;">
+                    <h3>Court Information</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+                        <div class="form-group">
+                            <label>Court Name</label>
+                            <input type="text" class="form-control" id="caEditName" value="Freedom Park Court">
+                        </div>
+                        <div class="form-group">
+                            <label>Town/City</label>
+                            <input type="text" class="form-control" id="caEditTown" value="Dumaguete City">
+                        </div>
+                        <div class="form-group">
+                            <label>Surface Type</label>
+                            <select class="form-control" id="caEditSurface">
+                                <option value="outdoor" selected>Outdoor</option>
+                                <option value="indoor">Indoor</option>
+                                <option value="covered">Covered</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Number of Courts</label>
+                            <input type="number" class="form-control" id="caEditNumCourts" value="2" min="1" max="20">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Description</label>
+                            <textarea class="form-control" id="caEditDesc" rows="3">Public courts at Freedom Park. Two pickleball courts with good lighting for evening play.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Operating Hours</label>
+                            <input type="text" class="form-control" id="caEditHours" value="6:00 AM - 9:00 PM">
+                        </div>
+                        <div class="form-group">
+                            <label>Amenities</label>
+                            <input type="text" class="form-control" id="caEditAmenities" value="Lighting, Restrooms, Parking">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:15px;" onclick="showToast('Court info updated!','success')">Save Changes</button>
+                </div>
+            </div>
+
+            <!-- Schedule Panel -->
+            <div class="ca-panel" id="ca-schedule">
+                <h3>Weekly Schedule</h3>
+                <p style="color:#666;margin-bottom:15px;">Green = available, Red = blocked. Click a slot to toggle.</p>
+                <div class="schedule-grid" id="caScheduleGrid"></div>
+                <h4 style="margin-top:25px;">Upcoming Games at Your Court</h4>
+                <div id="caUpcomingGames">
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon" style="background:#e3f2fd;color:#1565c0;"><i class="fas fa-gamepad"></i></div>
+                        <div><strong>Open Play</strong> — Today 5:30 PM (8 players)</div>
+                        <div class="checkin-time">All Levels</div>
+                    </div>
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon" style="background:#e3f2fd;color:#1565c0;"><i class="fas fa-gamepad"></i></div>
+                        <div><strong>Doubles Session</strong> — Tomorrow 4:00 PM (4 players)</div>
+                        <div class="checkin-time">Intermediate</div>
+                    </div>
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon" style="background:#fff3e0;color:#e65100;"><i class="fas fa-trophy"></i></div>
+                        <div><strong>Saturday Mini Tournament</strong> — Sat 9:00 AM (12 players)</div>
+                        <div class="checkin-time">All Levels</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Panel -->
+            <div class="ca-panel" id="ca-activity">
+                <h3>Check-in Activity</h3>
+                <div style="display:flex;gap:15px;margin-bottom:20px;flex-wrap:wrap;">
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">67</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">234</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                </div>
+                <h4>Live Check-in Feed</h4>
+                <div id="caCheckinFeed">
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon"><i class="fas fa-check"></i></div>
+                        <div><strong>Maria Tan</strong> checked in</div>
+                        <div class="checkin-time">2 min ago</div>
+                    </div>
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon"><i class="fas fa-check"></i></div>
+                        <div><strong>Juan Dela Cruz</strong> checked in</div>
+                        <div class="checkin-time">15 min ago</div>
+                    </div>
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon"><i class="fas fa-check"></i></div>
+                        <div><strong>Sarah Johnson</strong> checked in</div>
+                        <div class="checkin-time">22 min ago</div>
+                    </div>
+                    <div class="checkin-feed-item">
+                        <div class="checkin-icon"><i class="fas fa-check"></i></div>
+                        <div><strong>Alex Reyes</strong> checked in via QR</div>
+                        <div class="checkin-time">1 hour ago</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top:25px;">Post Announcement</h4>
+                <div class="form-group">
+                    <textarea class="form-control" id="caAnnouncement" rows="3" placeholder="e.g., Courts closed for maintenance on Wednesday..."></textarea>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Announcement posted!','success')">Post Announcement</button>
+            </div>
+
+            <!-- Events Panel -->
+            <div class="ca-panel" id="ca-events">
+                <h3>Events at Your Court</h3>
+                <button class="btn btn-primary btn-sm" style="margin-bottom:15px;" onclick="showToast('Create event form coming soon!','info')"><i class="fas fa-plus"></i> Create Event</button>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Friday Night Social</h3>
+                            <p><i class="fas fa-calendar"></i> Every Friday, 6-9 PM</p>
+                            <p>32 registered, 28 checked in last week</p>
+                            <div class="card-footer">
+                                <span class="badge">Active</span>
+                                <button class="action-btn action-btn-edit" onclick="showToast('Edit event form coming soon!','info')">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h3>Saturday Mini Tournament</h3>
+                            <p><i class="fas fa-calendar"></i> This Saturday, 9 AM</p>
+                            <p>12/16 spots filled</p>
+                            <div class="card-footer">
+                                <span class="badge" style="background:var(--accent);">Upcoming</span>
+                                <button class="action-btn action-btn-edit" onclick="showToast('Manage registrations coming soon!','info')">Manage</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Panel -->
+            <div class="ca-panel" id="ca-stats">
+                <h3>Court Analytics</h3>
+                <div class="admin-metric-grid">
+                    <div class="admin-metric">
+                        <div class="metric-value">234</div>
+                        <div class="metric-label">Total Check-ins (30d)</div>
+                    </div>
+                    <div class="admin-metric">
+                        <div class="metric-value">5:30 PM</div>
+                        <div class="metric-label">Peak Hour</div>
+                    </div>
+                    <div class="admin-metric">
+                        <div class="metric-value">Friday</div>
+                        <div class="metric-label">Busiest Day</div>
+                    </div>
+                    <div class="admin-metric">
+                        <div class="metric-value">18</div>
+                        <div class="metric-label">Regular Players</div>
+                    </div>
+                </div>
+
+                <h4>Skill Level Distribution</h4>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                    <div style="flex:1;min-width:120px;background:#e3f2fd;padding:12px;border-radius:8px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#1565c0;">8</div>
+                        <div style="font-size:12px;color:#555;">Beginner (2.0-2.5)</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;background:#e8f5e9;padding:12px;border-radius:8px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#2e7d32;">12</div>
+                        <div style="font-size:12px;color:#555;">Intermediate (3.0-3.5)</div>
+                    </div>
+                    <div style="flex:1;min-width:120px;background:#fff3e0;padding:12px;border-radius:8px;text-align:center;">
+                        <div style="font-size:20px;font-weight:bold;color:#e65100;">6</div>
+                        <div style="font-size:12px;color:#555;">Advanced (4.0+)</div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top:20px;">Game Types Hosted</h4>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                    <span class="badge" style="background:#e3f2fd;color:#1565c0;">Open Play: 45%</span>
+                    <span class="badge" style="background:#e8f5e9;color:#2e7d32;">Scheduled: 30%</span>
+                    <span class="badge" style="background:#fff3e0;color:#e65100;">Tournaments: 15%</span>
+                    <span class="badge" style="background:#f3e5f5;color:#6a1b9a;">Clinics: 10%</span>
                 </div>
             </div>
         </section>
