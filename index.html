@@ -35,21 +35,95 @@
             --map-green: #14B8A6;
             --bg: #F1F5F9;
             --card-shadow: rgba(15, 23, 42, 0.07);
+
+            /* Surface & text tokens */
+            --surface: #ffffff;
+            --surface-hover: #f5f5f5;
+            --surface-alt: #f8f9fa;
+            --surface-raised: #ffffff;
+            --text: #334155;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --text-soft: #777777;
+            --text-dim: #555555;
+            --text-dark: #333333;
+            --border: #dddddd;
+            --border-light: #eeeeee;
+            --border-map: #d0ddd9;
+            --input-bg: #ffffff;
+            --msg-bubble: #e8f0ee;
+            --metric-bg: linear-gradient(135deg, #f5f7fa, #e8edf2);
+            --location-tag-bg: rgba(37, 99, 235, 0.06);
+            --external-rank-bg: rgba(37, 99, 235, 0.03);
+            --search-input-bg: #ffffff;
+            --qr-bg: #f8f9fa;
+            --checkin-icon-bg: #e8f5e9;
+            --checkin-icon-color: #2e7d32;
+            --schedule-slot-bg: #e8f5e9;
+            --schedule-slot-color: #2e7d32;
+            --wizard-step-bg: #e0e0e0;
+            --wizard-step-color: #999999;
+            --streak-bg: #fff3e0;
+            --streak-color: #e65100;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --primary-dark: #2563eb;
+            --secondary: #e2e8f0;
+            --accent: #E7F54A;
+            --accent-dark: #c5d63e;
+            --light: #1e293b;
+            --dark: #f1f5f9;
+            --bg: #0f1219;
+            --card-shadow: rgba(0, 0, 0, 0.35);
+
+            --surface: #1a2332;
+            --surface-hover: #243044;
+            --surface-alt: #151d2b;
+            --surface-raised: #1e293b;
+            --text: #cbd5e1;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --text-soft: #94a3b8;
+            --text-dim: #a1afc4;
+            --text-dark: #e2e8f0;
+            --border: #2d3a4e;
+            --border-light: #1e293b;
+            --border-map: #2d3a4e;
+            --input-bg: #1a2236;
+            --msg-bubble: #1e293b;
+            --metric-bg: linear-gradient(135deg, #1a2332, #1e293b);
+            --location-tag-bg: rgba(59, 130, 246, 0.12);
+            --external-rank-bg: rgba(59, 130, 246, 0.08);
+            --search-input-bg: #1a2236;
+            --qr-bg: #1e293b;
+            --checkin-icon-bg: #1a3324;
+            --checkin-icon-color: #4ade80;
+            --schedule-slot-bg: #1a3324;
+            --schedule-slot-color: #4ade80;
+            --wizard-step-bg: #2d3a4e;
+            --wizard-step-color: #64748b;
+            --streak-bg: #3b2510;
+            --streak-color: #fb923c;
         }
 
         body {
             background-color: var(--bg);
-            color: #334155;
+            color: var(--text);
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Header & Navigation */
         header {
-            background-color: white;
+            background-color: var(--surface);
             box-shadow: 0 2px 20px var(--card-shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
+            transition: background-color 0.3s;
         }
 
         .container {
@@ -94,7 +168,7 @@
 
         nav a {
             text-decoration: none;
-            color: var(--dark);
+            color: var(--text-dark);
             font-weight: 600;
             font-size: 16px;
             transition: color 0.3s;
@@ -198,7 +272,7 @@
             max-width: 600px;
             margin: 0 auto;
             display: flex;
-            background: white;
+            background: var(--search-input-bg);
             border-radius: 50px;
             overflow: hidden;
             padding: 5px;
@@ -210,6 +284,8 @@
             padding: 15px 20px;
             font-size: 16px;
             outline: none;
+            background: var(--search-input-bg);
+            color: var(--text);
         }
 
         .search-bar button {
@@ -243,17 +319,17 @@
         }
 
         .card {
-            background-color: white;
+            background-color: var(--surface);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 16px var(--card-shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
             cursor: pointer;
         }
 
         .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+            box-shadow: 0 8px 30px var(--card-shadow);
         }
 
         .card-img {
@@ -273,7 +349,7 @@
         }
 
         .card p {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 15px;
             font-size: 14px;
         }
@@ -299,12 +375,12 @@
             height: 400px;
             border-radius: 12px;
             margin-bottom: 20px;
-            border: 2px solid #d0ddd9;
+            border: 2px solid var(--border-map);
             z-index: 1;
         }
 
         .map-controls {
-            background: white;
+            background: var(--surface);
             padding: 15px;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -320,15 +396,16 @@
         .map-controls select {
             padding: 8px 15px;
             border-radius: 5px;
-            border: 1px solid #ddd;
-            background: white;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            color: var(--text);
             font-size: 14px;
         }
 
         /* Tabs */
         .tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border);
             margin-bottom: 25px;
             flex-wrap: wrap;
         }
@@ -337,6 +414,7 @@
             padding: 12px 25px;
             cursor: pointer;
             font-weight: 600;
+            color: var(--text-secondary);
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
@@ -358,7 +436,7 @@
         .form-container {
             max-width: 600px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--surface);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 16px var(--card-shadow);
@@ -378,9 +456,11 @@
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border);
             border-radius: 5px;
             font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text);
         }
 
         .form-control:focus {
@@ -391,7 +471,7 @@
 
         /* Chat */
         .chat-container {
-            background-color: white;
+            background-color: var(--surface);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 16px var(--card-shadow);
@@ -425,7 +505,8 @@
             max-width: 70%;
             padding: 10px 15px;
             border-radius: 18px;
-            background-color: #e8f0ee;
+            background-color: var(--msg-bubble);
+            color: var(--text);
         }
 
         .message.sent .message-content {
@@ -435,23 +516,25 @@
 
         .chat-input {
             padding: 15px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-light);
             display: flex;
         }
 
         .chat-input input {
             flex: 1;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border);
             border-radius: 5px;
             margin-right: 10px;
+            background: var(--input-bg);
+            color: var(--text);
         }
 
         /* Location Tag */
         .location-tag {
             display: inline-flex;
             align-items: center;
-            background-color: rgba(37, 99, 235, 0.06);
+            background-color: var(--location-tag-bg);
             color: var(--primary-dark);
             padding: 5px 12px;
             border-radius: 20px;
@@ -477,7 +560,7 @@
             text-align: center;
             margin: 15px 0;
             padding: 10px;
-            background: #f8f9fa;
+            background: var(--qr-bg);
             border-radius: 8px;
         }
 
@@ -491,8 +574,10 @@
 
         .match-form input {
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border);
             border-radius: 5px;
+            background: var(--input-bg);
+            color: var(--text);
         }
 
         /* Responsive Design */
@@ -528,7 +613,7 @@
 
             nav li {
                 padding: 12px 0;
-                border-bottom: 1px solid #eee;
+                border-bottom: 1px solid var(--border-light);
             }
 
             .auth-buttons {
@@ -566,7 +651,7 @@
             display: flex;
         }
         .modal {
-            background: white;
+            background: var(--surface);
             border-radius: 12px;
             padding: 30px;
             width: 90%;
@@ -585,7 +670,7 @@
             top: 15px; right: 15px;
             background: none; border: none;
             font-size: 24px; cursor: pointer;
-            color: #666;
+            color: var(--text-secondary);
         }
         .modal h2 { margin-bottom: 20px; color: var(--secondary); }
         .modal .form-group { margin-bottom: 16px; }
@@ -593,7 +678,7 @@
         .modal .divider {
             text-align: center;
             margin: 20px 0;
-            color: #999;
+            color: var(--text-muted);
             position: relative;
         }
         .modal .divider::before,
@@ -603,14 +688,14 @@
             top: 50%;
             width: 40%;
             height: 1px;
-            background: #ddd;
+            background: var(--border);
         }
         .modal .divider::before { left: 0; }
         .modal .divider::after { right: 0; }
         .btn-google {
-            background: white;
-            color: #333;
-            border: 1px solid #ddd;
+            background: var(--surface);
+            color: var(--text-dark);
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -622,7 +707,7 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-        .btn-google:hover { background: #f5f5f5; }
+        .btn-google:hover { background: var(--surface-hover); }
         .modal-link {
             text-align: center;
             margin-top: 15px;
@@ -646,8 +731,8 @@
         .wizard-step {
             width: 32px; height: 32px;
             border-radius: 50%;
-            background: #e0e0e0;
-            color: #999;
+            background: var(--wizard-step-bg);
+            color: var(--wizard-step-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -693,8 +778,8 @@
             display: inline-flex;
             align-items: center;
             gap: 3px;
-            background: #fff3e0;
-            color: #e65100;
+            background: var(--streak-bg);
+            color: var(--streak-color);
             padding: 3px 8px;
             border-radius: 12px;
             font-size: 11px;
@@ -721,11 +806,11 @@
         .stat-card {
             flex: 1;
             min-width: 100px;
-            background: white;
+            background: var(--surface);
             border-radius: 10px;
             padding: 15px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px var(--card-shadow);
         }
         .stat-card .stat-value {
             font-size: 28px;
@@ -734,7 +819,7 @@
         }
         .stat-card .stat-label {
             font-size: 12px;
-            color: #999;
+            color: var(--text-muted);
             margin-top: 4px;
         }
 
@@ -742,7 +827,7 @@
         /* EXTERNAL RANKINGS SECTION                   */
         /* ============================================ */
         .external-rankings {
-            background: rgba(37, 99, 235, 0.03);
+            background: var(--external-rank-bg);
             border: 1px dashed var(--primary-light);
             border-radius: 10px;
             padding: 20px;
@@ -754,7 +839,7 @@
         }
         .external-rankings .hint {
             font-size: 12px;
-            color: #888;
+            color: var(--text-muted);
             margin-top: 10px;
             font-style: italic;
         }
@@ -785,25 +870,26 @@
             position: absolute;
             top: 60px;
             right: 20px;
-            background: white;
+            background: var(--surface);
             border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.25);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1100;
+            border: 1px solid var(--border-light);
         }
         .user-dropdown.active { display: block; }
         .user-dropdown a {
             display: block;
             padding: 10px 20px;
-            color: #333;
+            color: var(--text-dark);
             text-decoration: none;
             font-size: 14px;
             transition: background 0.2s;
         }
-        .user-dropdown a:hover { background: #f5f5f5; }
+        .user-dropdown a:hover { background: var(--surface-hover); }
         .user-dropdown .dropdown-divider {
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--border-light);
             margin: 5px 0;
         }
         .role-badge-header {
@@ -828,10 +914,10 @@
             min-height: 600px;
         }
         .admin-sidebar {
-            background: white;
+            background: var(--surface);
             border-radius: 10px;
             padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 10px var(--card-shadow);
             height: fit-content;
             position: sticky;
             top: 80px;
@@ -839,7 +925,7 @@
         .admin-sidebar h3 {
             padding: 0 20px 15px;
             color: var(--secondary);
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-light);
             margin-bottom: 10px;
             font-size: 16px;
         }
@@ -848,7 +934,7 @@
             align-items: center;
             gap: 10px;
             padding: 12px 20px;
-            color: #555;
+            color: var(--text-dim);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -857,7 +943,7 @@
         }
         .admin-sidebar a:hover,
         .admin-sidebar a.active {
-            background: #f5f7fa;
+            background: var(--surface-hover);
             color: var(--primary);
             border-left-color: var(--primary);
         }
@@ -870,10 +956,10 @@
             margin-left: auto;
         }
         .admin-content {
-            background: white;
+            background: var(--surface);
             border-radius: 10px;
             padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 10px var(--card-shadow);
         }
         .admin-panel { display: none; }
         .admin-panel.active { display: block; }
@@ -884,7 +970,7 @@
             margin-bottom: 25px;
         }
         .admin-metric {
-            background: linear-gradient(135deg, #f5f7fa, #e8edf2);
+            background: var(--metric-bg);
             border-radius: 10px;
             padding: 20px;
             text-align: center;
@@ -896,7 +982,7 @@
         }
         .admin-metric .metric-label {
             font-size: 13px;
-            color: #777;
+            color: var(--text-soft);
             margin-top: 5px;
         }
         .admin-table {
@@ -907,15 +993,16 @@
         .admin-table th, .admin-table td {
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-light);
             font-size: 14px;
+            color: var(--text);
         }
         .admin-table th {
-            background: #f8f9fa;
+            background: var(--surface-alt);
             font-weight: 600;
             color: var(--secondary);
         }
-        .admin-table tr:hover { background: #fafbfc; }
+        .admin-table tr:hover { background: var(--surface-hover); }
         .action-btn {
             padding: 5px 12px;
             border: none;
@@ -961,7 +1048,7 @@
         .ca-tabs {
             display: flex;
             gap: 0;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--border-light);
             margin-bottom: 25px;
         }
         .ca-tab {
@@ -969,7 +1056,7 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            color: #777;
+            color: var(--text-soft);
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
             margin-bottom: -2px;
@@ -987,8 +1074,8 @@
             margin-top: 15px;
         }
         .schedule-day {
-            background: white;
-            border: 1px solid #eee;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
             border-radius: 8px;
             padding: 10px;
             text-align: center;
@@ -1001,12 +1088,12 @@
             margin-bottom: 5px;
         }
         .schedule-slot {
-            background: #e8f5e9;
+            background: var(--schedule-slot-bg);
             border-radius: 4px;
             padding: 3px 6px;
             font-size: 10px;
             margin-top: 4px;
-            color: #2e7d32;
+            color: var(--schedule-slot-color);
         }
         .schedule-slot.blocked {
             background: #ffebee;
@@ -1017,13 +1104,13 @@
             align-items: center;
             gap: 12px;
             padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid var(--border-light);
         }
         .checkin-feed-item .checkin-icon {
             width: 36px; height: 36px;
             border-radius: 50%;
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: var(--checkin-icon-bg);
+            color: var(--checkin-icon-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1031,7 +1118,7 @@
         .checkin-feed-item .checkin-time {
             margin-left: auto;
             font-size: 12px;
-            color: #999;
+            color: var(--text-muted);
         }
 
         /* ============================================ */
@@ -1044,16 +1131,17 @@
             z-index: 3000;
         }
         .toast {
-            background: white;
+            background: var(--surface);
             border-radius: 10px;
             padding: 15px 20px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.25);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
             animation: slideIn 0.3s ease;
             max-width: 350px;
+            color: var(--text);
         }
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
@@ -1085,11 +1173,34 @@
                 border-bottom: 2px solid transparent;
                 font-size: 12px;
             }
-            .admin-sidebar a.active { border-bottom-color: var(--primary); border-left: none; }
+            .admin-sidebar a.active { border-bottom-color: var(--primary); border-left: none; background: var(--surface-hover); }
             .schedule-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
             .stats-row { flex-direction: column; }
+        }
+
+        /* ============================================ */
+        /* THEME TOGGLE                                */
+        /* ============================================ */
+        .theme-toggle {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 17px;
+            transition: background 0.3s, border-color 0.3s, transform 0.2s;
+            flex-shrink: 0;
+        }
+        .theme-toggle:hover {
+            background: var(--surface-hover);
+            transform: rotate(20deg);
         }
 
         /* Footer */
@@ -1164,7 +1275,7 @@
                 <i class="fab fa-google"></i> Continue with Google
             </button>
             <p class="modal-link">Don't have an account? <a onclick="switchModal('signInModal','registerModal')">Join Now</a></p>
-            <p class="modal-link" style="margin-top:8px;font-size:12px;color:#999;">Demo: admin@pickletown.com / admin123 | court@pickletown.com / court123 | player@pickletown.com / player123</p>
+            <p class="modal-link" style="margin-top:8px;font-size:12px;color:var(--text-muted);">Demo: admin@pickletown.com / admin123 | court@pickletown.com / court123 | player@pickletown.com / player123</p>
         </div>
     </div>
 
@@ -1231,7 +1342,7 @@
             <!-- Step 2: Skill Level -->
             <div class="wizard-panel" id="wizStep2">
                 <h3>Your Skill Level</h3>
-                <p style="color:#666;margin-bottom:15px;">Select the level that best describes your current play.</p>
+                <p style="color:var(--text-secondary);margin-bottom:15px;">Select the level that best describes your current play.</p>
                 <div class="form-group">
                     <select id="wizSkill" class="form-control" style="font-size:16px;padding:14px;">
                         <option value="2.0">2.0 - Beginner (learning basics)</option>
@@ -1292,7 +1403,7 @@
             <!-- Step 5: External Rankings -->
             <div class="wizard-panel" id="wizStep5">
                 <h3>External Rankings (Optional)</h3>
-                <p style="color:#666;margin-bottom:15px;">Link your ratings from other platforms. You can skip this and add later.</p>
+                <p style="color:var(--text-secondary);margin-bottom:15px;">Link your ratings from other platforms. You can skip this and add later.</p>
                 <div class="external-rankings" style="border:none;background:transparent;padding:0;">
                     <div class="form-group">
                         <label>DUPR Rating (2.0 - 8.0)</label>
@@ -1346,6 +1457,11 @@
                 </ul>
             </nav>
 
+            <!-- Theme Toggle -->
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode" aria-label="Toggle dark/light mode">
+                <i class="fas fa-moon"></i>
+            </button>
+
             <div class="auth-buttons" id="authButtons">
                 <button class="btn btn-outline" id="signInBtn">Sign In</button>
                 <button class="btn btn-primary" id="registerBtn">Join Now</button>
@@ -1358,7 +1474,7 @@
             </div>
             <div class="user-dropdown" id="userDropdown">
                 <a href="#" id="dropdownName" style="font-weight:bold;color:var(--secondary);pointer-events:none;">Player Name</a>
-                <a href="#" id="dropdownEmail" style="font-size:12px;color:#999;pointer-events:none;">email@example.com</a>
+                <a href="#" id="dropdownEmail" style="font-size:12px;color:var(--text-muted);pointer-events:none;">email@example.com</a>
                 <div class="dropdown-divider"></div>
                 <a href="#" onclick="showSection('players');activateTab(document.querySelector('[data-tab=player-profiles]'));closeUserDropdown();return false;"><i class="fas fa-user"></i> My Profile</a>
                 <a href="#" onclick="showSection('players');activateTab(document.querySelector('[data-tab=rankings]'));closeUserDropdown();return false;"><i class="fas fa-trophy"></i> My Rankings</a>
@@ -1583,7 +1699,7 @@
                 
                 <div id="map"></div>
                 
-                <div style="margin-top: 20px; background: white; padding: 15px; border-radius: 10px;">
+                <div style="margin-top: 20px; background: var(--surface); padding: 15px; border-radius: 10px;">
                     <h3>📊 Court Check-ins This Month</h3>
                     <div id="checkinsDisplay"></div>
                 </div>
@@ -1803,8 +1919,8 @@
                 <div class="form-container">
                     <h3>Your Player Profile</h3>
                     <div style="text-align: center; margin-bottom: 20px;">
-                        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #ccc; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-user" style="font-size: 40px; color: #666;"></i>
+                        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: var(--border); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user" style="font-size: 40px; color: var(--text-secondary);"></i>
                         </div>
                         <h4>Your Name Here</h4>
                         <p>Member of PickleTown 6200 • Dumaguete City</p>
@@ -1971,12 +2087,12 @@
                             </select>
                         </div>
                         <button onclick="submitMatch()" class="btn btn-primary" style="width: 100%;">Submit Result</button>
-                        <p style="font-size:12px;color:#999;margin-top:8px;text-align:center;">Opponent will be asked to verify. Verified matches earn full points.</p>
+                        <p style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:center;">Opponent will be asked to verify. Verified matches earn full points.</p>
                     </div>
                 </div>
 
                 <h2>Player Rankings</h2>
-                <p style="color:#666;margin-bottom:15px;">Points: Win +3 | Participation +1 | Upset Bonus +5 | Streak (3+) +2 | Tournament Win +10</p>
+                <p style="color:var(--text-secondary);margin-bottom:15px;">Points: Win +3 | Participation +1 | Upset Bonus +5 | Streak (3+) +2 | Tournament Win +10</p>
                 <div id="rankingsContainer"></div>
             </div>
         </section>
@@ -2406,7 +2522,7 @@
             <!-- Schedule Panel -->
             <div class="ca-panel" id="ca-schedule">
                 <h3>Weekly Schedule</h3>
-                <p style="color:#666;margin-bottom:15px;">Green = available, Red = blocked. Click a slot to toggle.</p>
+                <p style="color:var(--text-secondary);margin-bottom:15px;">Green = available, Red = blocked. Click a slot to toggle.</p>
                 <div class="schedule-grid" id="caScheduleGrid"></div>
                 <h4 style="margin-top:25px;">Upcoming Games at Your Court</h4>
                 <div id="caUpcomingGames">
@@ -3126,6 +3242,42 @@
         // ============================================
         // INITIALIZE APPLICATION
         // ============================================
+
+        // ============================================
+        // DARK / LIGHT MODE TOGGLE
+        // ============================================
+
+        (function initTheme() {
+            const saved = localStorage.getItem('pickletown-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            applyTheme(theme);
+        })();
+
+        function applyTheme(theme) {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if (theme === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+                if (btn) btn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                html.removeAttribute('data-theme');
+                if (btn) btn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            localStorage.setItem('pickletown-theme', theme);
+        }
+
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const isDark = document.documentElement.hasAttribute('data-theme');
+            applyTheme(isDark ? 'light' : 'dark');
+        });
+
+        // Sync when system preference changes (and user has no saved pref)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('pickletown-theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             // Show home section by default
